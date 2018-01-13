@@ -3,7 +3,7 @@
         .extern puts
 
         .org    0x00000000
-        .long   0x00000000      ; # 00 SP
+        .long   0x00800000      ; # 00 SP
         .long   start           ; # 01 PC
         .long   unhandled       ; # 02
         .long   unhandled       ; # 03
@@ -78,7 +78,7 @@ start:
         bsr     set_color
 
         ; # show greetings
-        move.l  greet, %a5
+        move.l  #greet, %a5
         bsr     puts
         bra     unhandled
 

@@ -11,19 +11,21 @@
         .equ    cursor_color_var,   0x00010002
 putc:
         ; # d0.b should contain a character
-        link    %a0, #0
+        move.l  %a0, -(%sp)
+        
         ; # setting symbol
-        move.l  text_start, %a0        
-        adda.w  (cursor_pos_var), %a0
-        move.b  %d0, (%a0)
-        ; # setting color
-        move.b  (cursor_color_var), %d0
-        move.l  color_start, %a0
-        adda.w  (cursor_pos_var), %a0
+        move.l  #text_start, %a0        
+        adda.w  cursor_pos_var, %a0
         move.b  %d0, (%a0)
 
-        add.w   #1, (cursor_pos_var)
-        unlk    %a0
+        ; # setting color
+        move.b  cursor_color_var, %d0
+        move.l  #color_start, %a0
+        adda.w  cursor_pos_var, %a0
+        move.b  %d0, (%a0)
+
+        add.w   #1, cursor_pos_var
+        move.l  (%sp)+, %a0
         rts
 
 puts:
@@ -38,11 +40,11 @@ puts_stop:
 
 set_cursor_pos:
         ; # d0.w should contain a new cursor position
-        move.w  (cursor_pos_var), %d0
+        move.w  %d0, cursor_pos_var
         rts
 
 set_color:
         ; # d0.b should contain a new color
-        move.b  (cursor_color_var), %d0
+        move.b  %d0, cursor_color_var
         rts
         
