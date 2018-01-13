@@ -1,4 +1,7 @@
         .text
+        .extern set_color
+        .extern puts
+
         .org    0x00000000
         .long   0x00000000      ; # 00 SP
         .long   start           ; # 01 PC
@@ -70,8 +73,13 @@ greet:
         .asciz  "Hello from VM68k Emulator"
 
 start:
+        ; # set color to white
+        move.b  #0x0F, %d0
+        bsr     set_color
+
+        ; # show greetings
         move.l  greet, %a5
-        jsr     puts
+        bsr     puts
         bra     unhandled
 
 unhandled:

@@ -1,14 +1,29 @@
         .text
+        
         .global putc
         .global puts
-        .equ    screen_start,   0x00780000
-        .equ    cursor_pos_var,  0x00010000
+        .global set_cursor_pos
+        .global set_color
+
+        .equ    text_start,         0x00780000
+        .equ    color_start,        0x007812C0
+        .equ    cursor_pos_var,     0x00010000
+        .equ    cursor_color_var,   0x00010002
 putc:
         ; # d0.b should contain a character
-        move.l  screen_start, %a0
-        adda.l  (cursor_pos_var), %a0
+        link    %a0, #0
+        ; # setting symbol
+        move.l  text_start, %a0        
+        adda.w  (cursor_pos_var), %a0
         move.b  %d0, (%a0)
+        ; # setting color
+        move.b  (cursor_color_var), %d0
+        move.l  color_start, %a0
+        adda.w  (cursor_pos_var), %a0
+        move.b  %d0, (%a0)
+
         add.w   #1, (cursor_pos_var)
+        unlk    %a0
         rts
 
 puts:
@@ -19,5 +34,15 @@ puts:
         jsr     putc
         bra     puts
 puts_stop:
+        rts
+
+set_cursor_pos:
+        ; # d0.w should contain a new cursor position
+        move.w  (cursor_pos_var), %d0
+        rts
+
+set_color:
+        ; # d0.b should contain a new color
+        move.b  (cursor_color_var), %d0
         rts
         
