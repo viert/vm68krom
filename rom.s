@@ -1,24 +1,27 @@
         .text
         .extern set_color
+        .extern set_cursor_pos
         .extern puts
+        .extern hdd_ready
+        .extern read_sector0
 
         .org    0x00000000
         .long   0x00800000      ; # 00 SP
         .long   start           ; # 01 PC
-        .long   unhandled       ; # 02
-        .long   unhandled       ; # 03
-        .long   unhandled       ; # 04
-        .long   unhandled       ; # 05
-        .long   unhandled       ; # 06
-        .long   unhandled       ; # 07
-        .long   unhandled       ; # 08
-        .long   unhandled       ; # 09
-        .long   unhandled       ; # 10
-        .long   unhandled       ; # 11
+        .long   unhandled       ; # 02 Bus error
+        .long   unhandled       ; # 03 Address error
+        .long   unhandled       ; # 04 Illegal Instruction
+        .long   unhandled       ; # 05 Division by zero
+        .long   unhandled       ; # 06 CHK
+        .long   unhandled       ; # 07 TRAPV
+        .long   unhandled       ; # 08 Privilege Violation
+        .long   unhandled       ; # 09 Trace
+        .long   unhandled       ; # 10 1010
+        .long   unhandled       ; # 11 1111
         .long   unhandled       ; # 12
         .long   unhandled       ; # 13
         .long   unhandled       ; # 14
-        .long   unhandled       ; # 15
+        .long   unhandled       ; # 15 Uninitialized interrupt
         .long   unhandled       ; # 16
         .long   unhandled       ; # 17
         .long   unhandled       ; # 18
@@ -27,50 +30,33 @@
         .long   unhandled       ; # 21
         .long   unhandled       ; # 22
         .long   unhandled       ; # 23
-        .long   unhandled       ; # 24
-        .long   unhandled       ; # 25
-        .long   unhandled       ; # 26
-        .long   unhandled       ; # 27
-        .long   unhandled       ; # 28
-        .long   unhandled       ; # 29
-        .long   unhandled       ; # 30
-        .long   unhandled       ; # 31
-        .long   unhandled       ; # 32
-        .long   unhandled       ; # 33
-        .long   unhandled       ; # 34
-        .long   unhandled       ; # 35
-        .long   unhandled       ; # 36
-        .long   unhandled       ; # 37
-        .long   unhandled       ; # 38
-        .long   unhandled       ; # 39
-        .long   unhandled       ; # 40
-        .long   unhandled       ; # 41
-        .long   unhandled       ; # 42
-        .long   unhandled       ; # 43
-        .long   unhandled       ; # 44
-        .long   unhandled       ; # 45
-        .long   unhandled       ; # 46
-        .long   unhandled       ; # 47
-        .long   unhandled       ; # 48
-        .long   unhandled       ; # 49
-        .long   unhandled       ; # 50
-        .long   unhandled       ; # 51
-        .long   unhandled       ; # 52
-        .long   unhandled       ; # 53
-        .long   unhandled       ; # 54
-        .long   unhandled       ; # 55
-        .long   unhandled       ; # 56
-        .long   unhandled       ; # 57
-        .long   unhandled       ; # 58
-        .long   unhandled       ; # 59
-        .long   unhandled       ; # 60
-        .long   unhandled       ; # 61
-        .long   unhandled       ; # 62
-        .long   unhandled       ; # 63
-        .long   unhandled       ; # 64
+        .long   unhandled       ; # 24 Spurious interrupt
+        .long   unhandled       ; # 25 INT1
+        .long   unhandled       ; # 26 INT2
+        .long   unhandled       ; # 27 INT3
+        .long   unhandled       ; # 28 INT4
+        .long   hdd_ready       ; # 29 INT5
+        .long   unhandled       ; # 30 INT6
+        .long   unhandled       ; # 31 INT7
+        .long   unhandled       ; # 32 TRAP 0
+        .long   unhandled       ; # 33 TRAP 1
+        .long   unhandled       ; # 34 TRAP 2
+        .long   unhandled       ; # 35 TRAP 3
+        .long   unhandled       ; # 36 TRAP 4
+        .long   unhandled       ; # 37 TRAP 5
+        .long   unhandled       ; # 38 TRAP 6
+        .long   unhandled       ; # 39 TRAP 7
+        .long   unhandled       ; # 40 TRAP 8
+        .long   unhandled       ; # 41 TRAP 9
+        .long   unhandled       ; # 42 TRAP 10
+        .long   unhandled       ; # 43 TRAP 11
+        .long   unhandled       ; # 44 TRAP 12
+        .long   unhandled       ; # 45 TRAP 13
+        .long   unhandled       ; # 46 TRAP 14
+        .long   unhandled       ; # 47 TRAP 15
 
 greet:
-        .asciz  "Hello from VM68k Emulator"
+        .asciz  "VM68k Emulator BIOS is starting"
 
 start:
         ; # set color to white
@@ -80,6 +66,14 @@ start:
         ; # show greetings
         move.l  #greet, %a5
         bsr     puts
+        move.w  #80, %d0                ; # Since the screen is 80x60, 80 means new line start
+        bsr     set_cursor_pos
+
+        bsr     read_sector0            ; # Sector is read into 0x00002000
+
+        move.l  #0x0000205B, %a5        ; # This is the address of the FAT boot sector text
+        bsr     puts
+
         bra     unhandled
 
 unhandled:
