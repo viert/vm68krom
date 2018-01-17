@@ -1,59 +1,117 @@
         .text
+        
         .extern set_color
         .extern set_cursor_pos
         .extern puts
-        .extern hdd_ready
         .extern read_sector0
+
+        .extern user_interrupt_table      
 
         .org    0x00000000
         .long   0x00800000      ; # 00 SP
         .long   start           ; # 01 PC
-        .long   unhandled       ; # 02 Bus error
-        .long   unhandled       ; # 03 Address error
-        .long   unhandled       ; # 04 Illegal Instruction
-        .long   unhandled       ; # 05 Division by zero
-        .long   unhandled       ; # 06 CHK
-        .long   unhandled       ; # 07 TRAPV
-        .long   unhandled       ; # 08 Privilege Violation
-        .long   unhandled       ; # 09 Trace
-        .long   unhandled       ; # 10 1010
-        .long   unhandled       ; # 11 1111
-        .long   unhandled       ; # 12
-        .long   unhandled       ; # 13
-        .long   unhandled       ; # 14
-        .long   unhandled       ; # 15 Uninitialized interrupt
-        .long   unhandled       ; # 16
-        .long   unhandled       ; # 17
-        .long   unhandled       ; # 18
-        .long   unhandled       ; # 19
-        .long   unhandled       ; # 20
-        .long   unhandled       ; # 21
-        .long   unhandled       ; # 22
-        .long   unhandled       ; # 23
-        .long   unhandled       ; # 24 Spurious interrupt
-        .long   unhandled       ; # 25 INT1
-        .long   unhandled       ; # 26 INT2
-        .long   unhandled       ; # 27 INT3
-        .long   unhandled       ; # 28 INT4
-        .long   hdd_ready       ; # 29 INT5
-        .long   unhandled       ; # 30 INT6
-        .long   unhandled       ; # 31 INT7
-        .long   unhandled       ; # 32 TRAP 0
-        .long   unhandled       ; # 33 TRAP 1
-        .long   unhandled       ; # 34 TRAP 2
-        .long   unhandled       ; # 35 TRAP 3
-        .long   unhandled       ; # 36 TRAP 4
-        .long   unhandled       ; # 37 TRAP 5
-        .long   unhandled       ; # 38 TRAP 6
-        .long   unhandled       ; # 39 TRAP 7
-        .long   unhandled       ; # 40 TRAP 8
-        .long   unhandled       ; # 41 TRAP 9
-        .long   unhandled       ; # 42 TRAP 10
-        .long   unhandled       ; # 43 TRAP 11
-        .long   unhandled       ; # 44 TRAP 12
-        .long   unhandled       ; # 45 TRAP 13
-        .long   unhandled       ; # 46 TRAP 14
-        .long   unhandled       ; # 47 TRAP 15
+        .long   exc_bus_err
+        .long   exc_addr_err
+        .long   exc_illegal
+        .long   exc_divide0
+        .long   exc_chk
+        .long   exc_trapv
+        .long   exc_privilege
+        .long   exc_trace
+        .long   exc_1010
+        .long   exc_1111
+        .long   exc_dummy12
+        .long   exc_dummy13
+        .long   exc_dummy14
+        .long   exc_uninit
+        .long   exc_dummy16
+        .long   exc_dummy17
+        .long   exc_dummy18
+        .long   exc_dummy19
+        .long   exc_dummy20
+        .long   exc_dummy21
+        .long   exc_dummy22
+        .long   exc_dummy23
+        .long   exc_spurious
+        .long   exc_int1
+        .long   exc_int2
+        .long   exc_int3
+        .long   exc_int4
+        .long   exc_int5
+        .long   exc_int6
+        .long   exc_int7
+        .long   exc_trap0
+        .long   exc_trap1
+        .long   exc_trap2
+        .long   exc_trap3
+        .long   exc_trap4
+        .long   exc_trap5
+        .long   exc_trap6
+        .long   exc_trap7
+        .long   exc_trap8
+        .long   exc_trap9
+        .long   exc_trap10
+        .long   exc_trap11
+        .long   exc_trap12
+        .long   exc_trap13
+        .long   exc_trap14
+        .long   exc_trap15
+
+jump_table_start:
+                .long   0xFFFFFFFF
+                .long   0xFFFFFFFF
+exc_bus_err:    bsr isr_entry
+exc_addr_err:   bsr isr_entry
+exc_illegal:    bsr isr_entry
+exc_divide0:    bsr isr_entry
+exc_chk:        bsr isr_entry
+exc_trapv:      bsr isr_entry
+exc_privilege:  bsr isr_entry
+exc_trace:      bsr isr_entry
+exc_1010:       bsr isr_entry
+exc_1111:       bsr isr_entry
+exc_dummy12:    bsr isr_entry
+exc_dummy13:    bsr isr_entry
+exc_dummy14:    bsr isr_entry
+exc_uninit:     bsr isr_entry
+exc_dummy16:    bsr isr_entry
+exc_dummy17:    bsr isr_entry
+exc_dummy18:    bsr isr_entry
+exc_dummy19:    bsr isr_entry
+exc_dummy20:    bsr isr_entry
+exc_dummy21:    bsr isr_entry
+exc_dummy22:    bsr isr_entry
+exc_dummy23:    bsr isr_entry
+exc_spurious:   bsr isr_entry
+exc_int1:       bsr isr_entry
+exc_int2:       bsr isr_entry
+exc_int3:       bsr isr_entry
+exc_int4:       bsr isr_entry
+exc_int5:       bsr isr_entry
+exc_int6:       bsr isr_entry
+exc_int7:       bsr isr_entry
+exc_trap0:      bsr isr_entry
+exc_trap1:      bsr isr_entry
+exc_trap2:      bsr isr_entry
+exc_trap3:      bsr isr_entry
+exc_trap4:      bsr isr_entry
+exc_trap5:      bsr isr_entry
+exc_trap6:      bsr isr_entry
+exc_trap7:      bsr isr_entry
+exc_trap8:      bsr isr_entry
+exc_trap9:      bsr isr_entry
+exc_trap10:     bsr isr_entry
+exc_trap11:     bsr isr_entry
+exc_trap12:     bsr isr_entry
+exc_trap13:     bsr isr_entry
+exc_trap14:     bsr isr_entry
+exc_trap15:     bsr isr_entry
+
+isr_entry:
+        ; # elegant hack to calculate address in user interrupt table
+        move.l  (%sp)+, %a0
+        adda.w  #(user_interrupt_table - jump_table_start - 4), %a0
+        jmp     (%a0)
 
 greet:
         .asciz  "VM68k Emulator BIOS is starting"

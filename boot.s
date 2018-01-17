@@ -1,17 +1,18 @@
         .text
 
         .global read_sector0
-        .global hdd_ready
+        .extern user_exc_int5
 
         .equ    hdd_cmd,        0x007F5500
         .equ    hdd_status,     0x007F5501
         .equ    hdd_cmdarg,     0x007F5502
         .equ    hdd_buffer,     0x007F5300
         .equ    boot_prg_start, 0x00002000
-
         .equ    hdd_cmd_read,   0x02
 
 read_sector0:
+        move.l      #hdd_ready, %a0
+        move.l      %a0, user_exc_int5
         move.l      #boot_prg_start, %a0
         bsr         int_mask
         eor.l       %d0, %d0
