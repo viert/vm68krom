@@ -1,4 +1,4 @@
-        .text
+        .data
         .global user_interrupt_table
         .global user_exc_int1
         .global user_exc_int2
