@@ -3,7 +3,7 @@ jobs:
   build:
     docker: 
       - image: ubuntu:xenial
-    working_directory: /tmp
+    working_directory: /tmp/build
     steps:
       - checkout
       - run: 
@@ -16,4 +16,4 @@ jobs:
           name: Building VM68k ROM file
           command: make
       - store_artifacts:
-          path: /tmp/vm68krom.bytes
+          path: /tmp/build/vm68krom.bytes
