@@ -3,7 +3,7 @@
         .extern set_color
         .extern set_cursor_pos
         .extern puts
-        .extern read_sector0
+        .extern read_bootloader
 
         .extern user_interrupt_table      
 
@@ -127,7 +127,7 @@ start:
         move.w  #80, %d0                ; # Since the screen is 80x60, 80 means new line start
         bsr     set_cursor_pos
 
-        bsr     read_sector0            ; # Sector is read into 0x00002000
+        bsr     read_bootloader            ; # Sector is read into 0x00001200
 
         move.l  #0x0000205B, %a5        ; # This is the address of the FAT boot sector text
         bsr     puts
