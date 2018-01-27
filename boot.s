@@ -1,6 +1,7 @@
         .text
 
         .global read_bootloader
+        .global boot_prg_start
         .extern user_exc_int5
 
         .equ    hdd_cmd,        0x007F5500

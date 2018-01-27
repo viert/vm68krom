@@ -4,6 +4,7 @@
         .extern set_cursor_pos
         .extern puts
         .extern read_bootloader
+        .extern boot_prg_start
 
         .extern user_interrupt_table      
 
@@ -128,11 +129,7 @@ start:
         bsr     set_cursor_pos
 
         bsr     read_bootloader            ; # Sector is read into 0x00001200
-
-        move.l  #0x0000205B, %a5        ; # This is the address of the FAT boot sector text
-        bsr     puts
-
-        bra     unhandled
+        bra     boot_prg_start
 
 unhandled:
         bra     unhandled
