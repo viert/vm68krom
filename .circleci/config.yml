@@ -11,7 +11,7 @@ jobs:
           command: apt update
       - run: 
           name: Installing packages 
-          command: apt -y install gcc-m68k-linux-gnu binutils-m68k-linux-gnu make
+          command: apt -y install gcc-m68k-linux-gnu binutils-m68k-linux-gnu make ca-certificates
       - run:
           name: Building VM68k ROM file
           command: make
