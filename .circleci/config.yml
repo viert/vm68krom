@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker: 
+      - image: ubuntu/16.04
+    steps:
+      - checkout
+      - run: 
+          name: APT preparing
+          command: apt update
+      - run: 
+          name: Installing packages 
+          command: apt -y install gcc-m68k-linux-gnu binutils-m68k-linux-gnu make
+      - run:
+          name: Building VM68k ROM file
+          command: make
