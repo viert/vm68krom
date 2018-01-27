@@ -1,4 +1,7 @@
 version: 2
+general:
+  artifacts:
+    - "vm68krom.bytes"
 jobs:
   build:
     docker: 
@@ -6,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: APT preparing
+          name: Preparing APT
           command: apt update
       - run: 
           name: Installing packages 
