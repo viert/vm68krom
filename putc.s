@@ -54,7 +54,7 @@ text_move_loop:
 
         movem.l (%sp)+, %a0-%a3/%d0
 
-        addi.w  -#80, cursor_pos_var
+        addi.w  #-80, cursor_pos_var
 
 pos_no_overflow:
         move.l  (%sp)+, %a0
