@@ -41,6 +41,7 @@ sector_copy_loop:
         dbf         %d3, read_sector_incr_loop
         
         movem.l     (%sp)+, %a0-%a1/%d0-%d3
+        move.w      (%sp)+, sr
         rts
 
 read_bootloader:
