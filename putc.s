@@ -36,6 +36,24 @@ putc:
         bmi     pos_no_overflow
 
         ; # moving up one line
+        bsr     move_one_line_up
+        addi.w  #-80, cursor_pos_var
+
+pos_no_overflow:
+        move.l  (%sp)+, %a0
+        rts
+
+puts:
+        ; # a5.l should contain a pointer to a string
+        tst.b   (%a5)
+        beq     puts_stop
+        move.b  (%a5)+, %d0
+        jsr     putc
+        bra     puts
+puts_stop:
+        rts
+
+move_one_line_up:
         movem.l %a0-%a3/%d0, -(%sp)
 
         move.l  #second_line_start, %a1
@@ -53,21 +71,6 @@ text_move_loop:
         dbf     %d0, text_move_loop
 
         movem.l (%sp)+, %a0-%a3/%d0
-
-        addi.w  #-80, cursor_pos_var
-
-pos_no_overflow:
-        move.l  (%sp)+, %a0
-        rts
-
-puts:
-        ; # a5.l should contain a pointer to a string
-        tst.b   (%a5)
-        beq     puts_stop
-        move.b  (%a5)+, %d0
-        jsr     putc
-        bra     puts
-puts_stop:
         rts
 
 set_cursor_pos:
