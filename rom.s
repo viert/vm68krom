@@ -125,10 +125,12 @@ start:
         ; # show greetings
         move.l  #greet, %a5
         bsr     puts
-        move.w  #80, %d0                ; # Since the screen is 80x60, 80 means new line start
+        move.w  #80, %d0                    ; # Since the screen is 80x60, 80 means new line start
         bsr     set_cursor_pos
+        
+        move.l  #read_sync, user_exc_trap0  ; # Register TRAP0 as read_sync entry
 
-        bsr     read_bootloader            ; # Sector is read into 0x00001200
+        bsr     read_bootloader             ; # Sector is read into 0x00001200
         bra     boot_prg_start
 
 unhandled:

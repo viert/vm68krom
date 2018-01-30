@@ -1,6 +1,7 @@
         .text
 
         .global read_bootloader
+        .global read_sync
         .global boot_prg_start
         .extern user_exc_int5
 
@@ -12,8 +13,6 @@
         .equ    hdd_cmd_read,   0x02
 
 ; # void read_sync(int sector_number, int sector_count, char* buffer)
-; #
-
 read_sync:
         movem.l     %a0-%a1/%d0-%d3, -(%sp)
         move.l      28(%sp), %d0            ; # sector number
@@ -48,7 +47,7 @@ read_bootloader:
         move.l      #boot_prg_start, -(%sp) ; # read_sync
         move.l      #2, -(%sp)              ; # 2 sectors
         move.l      #0, -(%sp)              ; # starting from sector 0
-        bsr         read_sync
+        trap        #0                      ; # call read_sync
         rts
 
 int_mask:
