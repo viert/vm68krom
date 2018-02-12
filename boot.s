@@ -12,7 +12,7 @@
         .equ    boot_prg_start, 0x00001200
         .equ    hdd_cmd_read,   0x02
 
-; # void read_sync(int sector_number, int sector_count, char* buffer)
+; # __cdecl void read_sync(int sector_number, int sector_count, char* buffer)
 read_sync:
         movem.l     %a0-%a1/%d0-%d3, -(%sp)
         move.l      28(%sp), %d0            ; # sector number
@@ -49,8 +49,4 @@ read_bootloader:
         move.l      #2, -(%sp)              ; # 2 sectors
         move.l      #0, -(%sp)              ; # starting from sector 0
         trap        #0                      ; # call read_sync
-        rts
-
-int_mask:
-        andi.w      #0b1111100011111111, %sr
         rts

@@ -133,5 +133,5 @@ start:
         bsr     read_bootloader             ; # Sector is read into 0x00001200
         bra     boot_prg_start
 
-unhandled:
+unhandled:                                  ; # halt
         bra     unhandled
