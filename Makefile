@@ -1,24 +1,26 @@
-
-ASM = m68k-linux-gnu-as
-LINKER = m68k-linux-gnu-ld
+AS = m68k-linux-gnu-as
+LD = m68k-linux-gnu-ld
 BINARY = vm68krom.bytes
 
 all: $(BINARY)
 
-$(BINARY): rom.o rom.ld putc.o boot.o int_table.o
-	$(LINKER) -T rom.ld rom.o putc.o boot.o int_table.o -o $(BINARY)
+$(BINARY): rom.o rom.ld putc.o boot.o int_table.o kernel/kernel.o
+	$(LD) -T rom.ld rom.o putc.o boot.o int_table.o kernel/kernel.o -o $(BINARY)
 
 rom.o: rom.s
-	$(ASM) rom.s -o rom.o
+	$(AS) rom.s -o rom.o
 
 putc.o: putc.s
-	$(ASM) putc.s -o putc.o
+	$(AS) putc.s -o putc.o
 
 boot.o: boot.s 
-	$(ASM) boot.s -o boot.o
+	$(AS) boot.s -o boot.o
 
 int_table.o: int_table.s 
-	$(ASM) int_table.s -o int_table.o
+	$(AS) int_table.s -o int_table.o
 
 clean:
 	rm -f *.o $(BINARY)
+
+kernel:
+	$(MAKE) -c kernel
