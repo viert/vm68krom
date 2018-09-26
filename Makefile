@@ -21,6 +21,7 @@ int_table.o: int_table.s
 
 clean:
 	rm -f *.o $(BINARY)
+	$(MAKE) -C kernel clean
 
-kernel:
-	$(MAKE) -c kernel
+kernel/kernel.o:
+	$(MAKE) -C kernel
