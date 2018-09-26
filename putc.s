@@ -6,9 +6,7 @@
         .global set_color
 
         .equ    text_start,             0x00780000
-        .equ    second_line_start,      text_start + 80
         .equ    color_start,            0x007812C0
-        .equ    second_line_col_start,  color_start + 80
 
         .equ    cursor_pos_var,     0x00010000
         .equ    cursor_color_var,   0x00010002
@@ -56,10 +54,10 @@ puts_stop:
 move_one_line_up:
         movem.l %a0-%a3/%d0, -(%sp)
 
-        move.l  #second_line_start, %a1
+        move.l  #(text_start + 80), %a1
         move.l  #text_start, %a0
 
-        move.l  #second_line_col_start, %a3
+        move.l  #(color_start + 80), %a3
         move.l  #color_start, %a2
 
         move.l  #words_to_move, %d0
