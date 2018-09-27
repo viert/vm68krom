@@ -14,7 +14,7 @@ crt/crt.o:
 	$(MAKE) -C crt
 
 entry.o: entry.c
-	$(CC) $(CFLAGS) $? -o $@
+	$(CC) $(CFLAGS) -c $? -o $@
 
 clean:
 	rm -f *.o
