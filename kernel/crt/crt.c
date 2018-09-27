@@ -29,12 +29,12 @@ void clear_screen()
 
 char *get_current_screen_addr()
 {
-  return TXTMODE_START + (TEXT_WIDTH * (unsigned int)crtv_cursor_y) + crtv_cursor_x;
+  return TXTMODE_START + (TEXT_WIDTH * (unsigned int)*crtv_cursor_y) + *crtv_cursor_x;
 }
 
 char *get_current_color_addr()
 {
-  return TXTMODE_COLOR_START + (TEXT_WIDTH * (unsigned int)crtv_cursor_y) + crtv_cursor_x;
+  return TXTMODE_COLOR_START + (TEXT_WIDTH * (unsigned int)*crtv_cursor_y) + *crtv_cursor_x;
 }
 
 void next_cursor_pos()
