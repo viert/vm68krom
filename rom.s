@@ -1,11 +1,7 @@
         .text
         
-        .extern set_color
-        .extern set_cursor_pos
-        .extern puts
         .extern read_bootloader
-        .extern boot_prg_start
-
+        .extern entry
         .extern user_interrupt_table      
 
         .org    0x00000000
@@ -114,24 +110,8 @@ isr_entry:
         adda.w  #(user_interrupt_table - jump_table_start - 4), %a0
         jmp     (%a0)
 
-greet:
-        .asciz  "VM68k Emulator BIOS is starting"
-
 start:
-        ; # set color to white
-        move.b  #0x0F, %d0
-        bsr     set_color
-
-        ; # show greetings
-        move.l  #greet, %a5
-        bsr     puts
-        move.w  #80, %d0                    ; # Since the screen is 80x60, 80 means new line start
-        bsr     set_cursor_pos
-        
-        move.l  #read_sync, user_exc_trap0  ; # Register TRAP0 as read_sync entry
-
-        bsr     read_bootloader             ; # Sector is read into 0x00001200
-        bra     boot_prg_start
+        bra     entry
 
 unhandled:                                  ; # halt
         bra     unhandled

@@ -23,7 +23,7 @@ void scroll()
 
 void clear_screen()
 {
-  fillmem(TXTMODE_START, TEXT_HEIGHT * TEXT_WIDTH, CHR_SPACE);
+  fillmem((void*)TXTMODE_START, TEXT_HEIGHT * TEXT_WIDTH, CHR_SPACE);
 }
 
 char *get_current_screen_addr()
@@ -49,7 +49,7 @@ void next_cursor_pos()
 void putc(char sym)
 {
   char *addr = get_current_screen_addr();
-  addr = sym;
+  *addr = sym;
   next_cursor_pos();
 }
 
@@ -57,6 +57,7 @@ void puts(char *str)
 {
   while (*str != 0)
   {
-    putc(str++);
+    putc(*str);
+    str++;
   }
 }
