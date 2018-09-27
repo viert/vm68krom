@@ -3,8 +3,9 @@
 
 void crt_init()
 {
-  *cursor_x = 0;
-  *cursor_y = 0;
+  *crtv_cursor_x = 0;
+  *crtv_cursor_y = 0;
+  *crtv_color = 0x0F;
 }
 
 void scroll()
@@ -28,20 +29,20 @@ void clear_screen()
 
 char *get_current_screen_addr()
 {
-  return TXTMODE_START + (TEXT_WIDTH * (unsigned int)cursor_y) + cursor_x;
+  return TXTMODE_START + (TEXT_WIDTH * (unsigned int)crtv_cursor_y) + crtv_cursor_x;
 }
 
 void next_cursor_pos()
 {
-  *cursor_x++;
-  if (*cursor_x >= TEXT_WIDTH)
+  *crtv_cursor_x++;
+  if (*crtv_cursor_x >= TEXT_WIDTH)
   {
-    *cursor_x = 0;
-    *cursor_y++;
-    if (*cursor_y >= TEXT_HEIGHT)
+    *crtv_cursor_x = 0;
+    *crtv_cursor_y++;
+    if (*crtv_cursor_y >= TEXT_HEIGHT)
     {
       scroll();
-      *cursor_y--;
+      *crtv_cursor_y--;
     }
   }
 }
@@ -53,7 +54,7 @@ void putc(char sym)
   next_cursor_pos();
 }
 
-void puts(char *str)
+void puts(const char *str)
 {
   while (*str != 0)
   {
