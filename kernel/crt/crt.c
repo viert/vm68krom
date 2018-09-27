@@ -24,12 +24,17 @@ void scroll()
 
 void clear_screen()
 {
-  fillmem((void*)TXTMODE_START, TEXT_HEIGHT * TEXT_WIDTH, CHR_SPACE);
+  fillmem((void *)TXTMODE_START, TEXT_HEIGHT * TEXT_WIDTH, CHR_SPACE);
 }
 
 char *get_current_screen_addr()
 {
   return TXTMODE_START + (TEXT_WIDTH * (unsigned int)crtv_cursor_y) + crtv_cursor_x;
+}
+
+char *get_current_color_addr()
+{
+  return TXTMODE_COLOR_START + (TEXT_WIDTH * (unsigned int)crtv_cursor_y) + crtv_cursor_x;
 }
 
 void next_cursor_pos()
@@ -51,6 +56,8 @@ void putc(char sym)
 {
   char *addr = get_current_screen_addr();
   *addr = sym;
+  char *color_addr = get_current_color_addr();
+  *color_addr = *crtv_color;
   next_cursor_pos();
 }
 
@@ -61,4 +68,9 @@ void puts(const char *str)
     putc(*str);
     str++;
   }
+}
+
+void set_color(unsigned const char color)
+{
+  *crtv_color = color;
 }

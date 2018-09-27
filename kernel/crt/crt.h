@@ -17,8 +17,9 @@ static unsigned char *crtv_color = (unsigned char *)(CRT_VAR_START + 2);
 void crt_init();
 void scroll();
 void putc(char);
-void puts(char *);
+void puts(const char *);
 void clear_screen();
 void next_cursor_pos();
+void set_color(unsigned const char);
 
 #endif // __CRT_H__
