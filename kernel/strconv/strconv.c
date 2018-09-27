@@ -13,7 +13,6 @@ void dec(long i, char *dst)
   dst[digits + 1] = 0; // null-terminated
   while (digits >= 0)
   {
-    printf("%d\n", digits);
     dst[digits] = 48 + (i % 10);
     i = i / 10;
     digits--;
@@ -33,7 +32,6 @@ void hex(long i, char *dst)
   dst[digits + 1] = 0; // null-terminated
   while (digits >= 0)
   {
-    printf("%d\n", digits);
     char value = i % 16;
     if (value < 10)
     {
