@@ -3,7 +3,7 @@
 void entry()
 {
   crt_init();
-  clear_screen();
+  //  clear_screen();
   puts("Hello from C kernel");
   while (1)
   {
