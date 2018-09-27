@@ -33,15 +33,15 @@ char *get_current_screen_addr()
 
 void next_cursor_pos()
 {
-  cursor_x++;
-  if (cursor_x >= TEXT_WIDTH)
+  *cursor_x++;
+  if (*cursor_x >= TEXT_WIDTH)
   {
-    cursor_x = 0;
-    cursor_y++;
-    if (cursor_y >= TEXT_HEIGHT)
+    *cursor_x = 0;
+    *cursor_y++;
+    if (*cursor_y >= TEXT_HEIGHT)
     {
       scroll();
-      cursor_y--;
+      *cursor_y--;
     }
   }
 }
@@ -55,7 +55,7 @@ void putc(char sym)
 
 void puts(char *str)
 {
-  while (str != 0)
+  while (*str != 0)
   {
     putc(str++);
   }
