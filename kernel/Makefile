@@ -1,6 +1,6 @@
 CC = m68k-linux-gnu-gcc
 LD = m68k-linux-gnu-ld
-CFLAGS = -Wno-incompatible-library-redeclaration
+CFLAGS = -fno-builtin-putc -fno-builtin-puts
 
 all: kernel.o
 
