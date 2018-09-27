@@ -1,11 +1,10 @@
-#include "mem.h"
+#include "../memory/mem.h"
 
 #define TXTMODE_START 0x0780000
 #define TXTMODE_COLOR_START 0x007812c0
 #define TEXT_WIDTH 80
 #define TEXT_HEIGHT 60
 
-/** scrolls the screen up 1 symbol line */
 void scroll()
 {
   char *dst;

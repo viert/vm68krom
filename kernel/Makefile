@@ -4,14 +4,16 @@ CFLAGS = -Wno-incompatible-library-redeclaration
 
 all: kernel.o
 
-kernel.o: mem.o crt.o
+kernel.o: mem/mem.o crt/crt.o
 	$(LD) -r $? -o kernel.o
 
-mem.o: mem.c mem.h
-	$(CC) $(CFLAGS) -c mem.c -o mem.o
+mem/mem.o:
+	$(MAKE) -C mem
 
-crt.o: crt.c
-	$(CC) $(CFLAGS) -c crt.c -o crt.o
+crt/crt.o:
+	$(MAKE) -C crt
 
 clean:
 	rm -f *.o
+	$(MAKE) -C crt clean
+	$(MAKE) -C mem clean
