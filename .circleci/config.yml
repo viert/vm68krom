@@ -1,17 +1,11 @@
 version: 2
 jobs:
   build:
-    docker: 
-      - image: ubuntu:xenial
+    docker:
+      - image: viert/m68kbuild:latest
     working_directory: /tmp/build
     steps:
       - checkout
-      - run: 
-          name: Preparing APT
-          command: apt update
-      - run: 
-          name: Installing packages 
-          command: apt -y install gcc-m68k-linux-gnu binutils-m68k-linux-gnu make ca-certificates
       - run:
           name: Building VM68k ROM file
           command: make
