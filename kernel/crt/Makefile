@@ -1,9 +1,9 @@
 CC = m68k-linux-gnu-gcc
 LD = m68k-linux-gnu-ld
-CFLAGS = -Wno-incompatible-library-redeclaration
+CFLAGS = -fno-builtin-puts -fno-builtin-putc
 
 crt.o: crt.c
-	$(CC) -c $? -o $@
+	$(CC) $(CFLAGS) -c $? -o $@
 
 clean:
 	rm -f *.o
