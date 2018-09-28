@@ -1,9 +1,21 @@
+#include "stdlib.h" // abs() is inline so doesn't need actual library linking
 #include "strconv.h"
 
 void dec(long i, char *dst)
 {
+  int _i;
   int digits = 0;
-  int _i = i;
+
+  if (i < 0)
+  {
+    _i = abs(i);
+    digits = 1;
+  }
+  else
+  {
+    _i = i;
+  }
+
   while (_i / 10 > 0)
   {
     digits++;
@@ -11,7 +23,14 @@ void dec(long i, char *dst)
   }
 
   dst[digits + 1] = 0; // null-terminated
-  while (digits >= 0)
+
+  if (i < 0)
+  {
+    dst[0] = '-';
+    i = abs(i);
+  }
+
+  while (i > 0)
   {
     dst[digits] = 48 + (i % 10);
     i = i / 10;
