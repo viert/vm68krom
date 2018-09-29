@@ -8,9 +8,9 @@ void entry()
 
   int y;
 
-  for (int i = 0; i < 15; i++)
+  for (int i = 0; i < 1500; i++)
   {
-    printf("This is a string number %d\n", i);
+    printf("%x ", i);
   }
   while (1)
   {

@@ -14,8 +14,8 @@ void scroll()
 {
   char *dst;
   char *src;
-  unsigned long const size = TEXT_WIDTH * (TEXT_HEIGHT - 1);
 
+  unsigned long const size = TEXT_WIDTH * (TEXT_HEIGHT - 1);
   dst = (char *)TXTMODE_START;
   src = (char *)TXTMODE_START + TEXT_WIDTH;
   memcpy(src, dst, size);
@@ -144,6 +144,9 @@ void printf(const char *format, ...)
         iarg = va_arg(args, long);
         hex(iarg, num_str);
         puts(num_str);
+        break;
+      case '%':
+        putc('%');
         break;
       default:
         putc('%');
