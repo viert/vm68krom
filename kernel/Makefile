@@ -5,15 +5,15 @@ CFLAGS = -fno-builtin-putc -fno-builtin-puts -fno-builtin-printf -mcpu=68020 -O3
 all: kernel.o
 
 kernel.o: memory/mem.o crt/crt.o strconv/strconv.o entry.o
-	$(LD) -r $? -o kernel.o
+	$(LD) -r memory/mem.o crt/crt.o strconv/strconv.o entry.o -o kernel.o
 
-memory/mem.o:
+memory/mem.o::
 	$(MAKE) -C memory
 
-crt/crt.o:
+crt/crt.o::
 	$(MAKE) -C crt
 
-strconv/strconv.o:
+strconv/strconv.o::
 	$(MAKE) -C strconv
 
 entry.o: entry.c

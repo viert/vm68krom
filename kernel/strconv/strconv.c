@@ -1,7 +1,11 @@
 #include "stdlib.h" // abs() is inline so doesn't need actual library linking
 #include "strconv.h"
 
-void dec(long i, char *dst)
+static const char alpha8[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
+static const char alpha10[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+static const char alpha16[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+void conv(long i, char *dst, int base, const char *alphabeth)
 {
   int _i;
   int _c;
@@ -18,10 +22,10 @@ void dec(long i, char *dst)
     digits++;
   }
 
-  _c = 10;
-  while (_i > _c)
+  _c = base;
+  while (_i >= _c)
   {
-    _c = _c * 10;
+    _c = _c * base;
     digits++;
   }
 
@@ -30,7 +34,7 @@ void dec(long i, char *dst)
 
   if (i < 0)
   {
-    dst[0] = "-";
+    dst[0] = '-';
     _ind = 1;
   }
   else
@@ -39,35 +43,24 @@ void dec(long i, char *dst)
   }
   while (_ind < digits)
   {
+    _c = _c / base;
     _curr = _i / _c;
-    dst[_ind++] = 48 + _curr; // 48 is the '0' symbol code
-    _c = _c / 10;
+    _i = _i % _c;
+    dst[_ind++] = alphabeth[_curr];
   }
+}
+
+void dec(long i, char *dst)
+{
+  conv(i, dst, 10, alpha10);
 }
 
 void hex(long i, char *dst)
 {
-  int digits = 0;
-  int _i = i;
-  while (_i / 16 > 0)
-  {
-    digits++;
-    _i = _i / 16;
-  }
+  conv(i, dst, 16, alpha16);
+}
 
-  dst[digits + 1] = 0; // null-terminated
-  while (digits >= 0)
-  {
-    char value = i % 16;
-    if (value < 10)
-    {
-      dst[digits] = 48 + value; // ("0") + value
-    }
-    else
-    {
-      dst[digits] = 55 + value; // 65("A") + value - 10
-    }
-    i = i / 16;
-    digits--;
-  }
+void oct(long i, char *dst)
+{
+  conv(i, dst, 8, alpha8);
 }

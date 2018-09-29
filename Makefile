@@ -16,7 +16,7 @@ boot.o: boot.s
 int_table.o: int_table.s 
 	$(AS) int_table.s -o int_table.o
 
-kernel/kernel.o:
+kernel/kernel.o::
 	$(MAKE) -C kernel
 
 clean:

@@ -44,18 +44,29 @@ void next_cursor_pos()
   (*crtv_cursor_x)++;
   if (*crtv_cursor_x >= TEXT_WIDTH)
   {
-    *crtv_cursor_x = 0;
-    (*crtv_cursor_y)++;
-    if (*crtv_cursor_y >= TEXT_HEIGHT)
-    {
-      scroll();
-      (*crtv_cursor_y)--;
-    }
+    next_line();
+  }
+}
+
+void next_line()
+{
+  *crtv_cursor_x = 0;
+  (*crtv_cursor_y)++;
+  if ((*crtv_cursor_y) >= TEXT_HEIGHT)
+  {
+    scroll();
+    (*crtv_cursor_y)--;
   }
 }
 
 void putc(char sym)
 {
+  if (sym == '\n')
+  {
+    next_line();
+    return;
+  }
+
   char *addr = get_current_screen_addr();
   *addr = sym;
   char *color_addr = get_current_color_addr();
@@ -91,7 +102,7 @@ void printf(const char *format, ...)
     if ((*curr) == '%')
     {
       curr++;
-      if ((*curr) == 'd' || (*curr) == 's' || (*curr) == 'h')
+      if ((*curr) == 'd' || (*curr) == 's' || (*curr) == 'x')
       {
         curr++;
         num_args++;
@@ -129,7 +140,7 @@ void printf(const char *format, ...)
         sarg = va_arg(args, char *);
         puts(sarg);
         break;
-      case 'h':
+      case 'x':
         iarg = va_arg(args, long);
         hex(iarg, num_str);
         puts(num_str);
