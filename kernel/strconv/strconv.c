@@ -4,37 +4,44 @@
 void dec(long i, char *dst)
 {
   int _i;
-  int digits = 0;
+  int _c;
+  int _ind;  // current digit index
+  int _curr; // current digit
+
+  // string contains 1 char min
+  int digits = 1;
+
+  _i = abs(i);
+  if (i < 0)
+  {
+    // minus sign gives additional digit
+    digits++;
+  }
+
+  _c = 10;
+  while (_i > _c)
+  {
+    _c = _c * 10;
+    digits++;
+  }
+
+  // digits now contains num of chars, termninating at that point
+  dst[digits] = 0;
 
   if (i < 0)
   {
-    _i = abs(i);
-    digits = 1;
+    dst[0] = "-";
+    _ind = 1;
   }
   else
   {
-    _i = i;
+    _ind = 0;
   }
-
-  while (_i / 10 > 0)
+  while (_ind < digits)
   {
-    digits++;
-    _i = _i / 10;
-  }
-
-  dst[digits + 1] = 0; // null-terminated
-
-  if (i < 0)
-  {
-    dst[0] = '-';
-    i = abs(i);
-  }
-
-  while (i > 0)
-  {
-    dst[digits] = 48 + (i % 10);
-    i = i / 10;
-    digits--;
+    _curr = _i / _c;
+    dst[_ind++] = 48 + _curr; // 48 is the '0' symbol code
+    _c = _c / 10;
   }
 }
 

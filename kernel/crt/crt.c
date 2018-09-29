@@ -152,5 +152,6 @@ void printf(const char *format, ...)
 void puti(long num)
 {
   char num_str[10];
+  dec(num, num_str);
   puts(num_str);
 }
