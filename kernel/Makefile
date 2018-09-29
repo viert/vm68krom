@@ -1,6 +1,6 @@
 CC = m68k-linux-gnu-gcc
 LD = m68k-linux-gnu-ld
-CFLAGS = -fno-builtin-putc -fno-builtin-puts -mcpu=68000 -O3
+CFLAGS = -fno-builtin-putc -fno-builtin-puts -fno-builtin-printf -mcpu=68020 -O3
 
 all: kernel.o
 

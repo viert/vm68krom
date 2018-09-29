@@ -18,8 +18,10 @@ void crt_init();
 void scroll();
 void putc(char);
 void puts(const char *);
+void puti(long);
 void clear_screen();
 void next_cursor_pos();
 void set_color(unsigned const char);
+void printf(const char *, ...);
 
 #endif // __CRT_H__
