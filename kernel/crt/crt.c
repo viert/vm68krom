@@ -90,9 +90,12 @@ void set_color(unsigned const char color)
 
 void printf(const char *format, ...)
 {
+  va_list args;
+
   long iarg;
   char *sarg;
-  char num_str[8];
+
+  char num_str[10];
   int num_args = 0;
   char *curr = (char *)format;
 
@@ -121,8 +124,8 @@ void printf(const char *format, ...)
     return;
   }
 
-  va_list args;
   va_start(args, format);
+
   curr = (char *)format;
   while ((*curr) != 0)
   {
@@ -151,7 +154,6 @@ void printf(const char *format, ...)
       default:
         putc('%');
         putc(*curr);
-        break;
       }
     }
     else
